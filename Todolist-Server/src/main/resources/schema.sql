@@ -8,6 +8,3 @@ create table if not exists Todo (
 	primary key (todo_Id)
 );
 
-
-# sets the auto_increment starting values
-alter table Todo auto_increment=1000;

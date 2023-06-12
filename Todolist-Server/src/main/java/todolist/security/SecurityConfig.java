@@ -14,19 +14,10 @@ public class SecurityConfig{
 
 	@Bean
 	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-		/*
-		http
-			.authorizeHttpRequests((authorizeHttpRequests) ->
-				authorizeHttpRequests
-					.requestMatchers("/**").permitAll()
-			)
-			.csrf().disable()
-			.oauth2Login();
-		*/
-		
 		http
 			.authorizeHttpRequests()
-				.requestMatchers("/**").fullyAuthenticated()
+				.requestMatchers("/api/v1/**").fullyAuthenticated()
+				// all API require authentication to identify the user and their Todos
 				.and()
 				.oauth2ResourceServer().jwt()
 				.and()
@@ -36,8 +27,11 @@ public class SecurityConfig{
 		return http.build();
 	}
 	
+	/* to specify the specific password encoder 
+	 * not used because currently we only allow users who sign in with Gmail
 	@Bean
 	public PasswordEncoder encoder() {
 		return new BCryptPasswordEncoder();
 	}
+	*/
 }

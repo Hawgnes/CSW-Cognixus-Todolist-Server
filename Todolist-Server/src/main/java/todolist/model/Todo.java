@@ -4,25 +4,30 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.UUID;
 
+import org.hibernate.validator.constraints.Length;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.domain.Persistable;
 import org.springframework.data.relational.core.mapping.Table;
 
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
+import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 @Data
 @Table
 public class Todo implements Persistable<Long>{
 	@Id
 	private Long todoId;
-	
+
+	@NotBlank(message="Todo title must not be blank")
+	@Length(min = 3, max = 255, message = "Todo title must be between 3 to 255 characters")
 	private String todoTitle;
+	
+	@Length(max = 255, message = "Todo description must not be more than 255 characters")
 	private String todoDesc;
+	
 	private TODO_STATUS todoStatus = TODO_STATUS.NEW;
 	
+	// passed in with Principal
 	private String ownerId;
 	private Date createdAt = new Date();
 	
@@ -37,15 +42,8 @@ public class Todo implements Persistable<Long>{
 
 	@Override
 	public boolean isNew() {
-		// true if no id = indicating this is a new entry
+		// true if no id - indicating this is a new entry
 		return todoId == null;
 	}
 	
-	public static String getAllPossibleTodoStatus() {
-		String allStatus = "";
-		for (TODO_STATUS status : TODO_STATUS.values()) {
-			allStatus += status.toString() + " | ";
-		}
-		return allStatus;
-	}
 }
