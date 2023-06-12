@@ -15,7 +15,7 @@ import lombok.NoArgsConstructor;
 
 @Data
 @Table
-public class Todo implements Persistable{
+public class Todo implements Persistable<Long>{
 	@Id
 	private Long todoId;
 	
@@ -23,7 +23,7 @@ public class Todo implements Persistable{
 	private String todoDesc;
 	private TODO_STATUS todoStatus = TODO_STATUS.NEW;
 	
-	private Long ownerId;
+	private String ownerId;
 	private Date createdAt = new Date();
 	
 	public enum TODO_STATUS{
@@ -31,13 +31,21 @@ public class Todo implements Persistable{
 	}
 
 	@Override
-	public Object getId() {
+	public Long getId() {
 		return this.todoId;
 	}
 
 	@Override
 	public boolean isNew() {
 		// true if no id = indicating this is a new entry
-		return todoId == 0;
+		return todoId == null;
+	}
+	
+	public static String getAllPossibleTodoStatus() {
+		String allStatus = "";
+		for (TODO_STATUS status : TODO_STATUS.values()) {
+			allStatus += status.toString() + " | ";
+		}
+		return allStatus;
 	}
 }
