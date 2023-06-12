@@ -6,6 +6,10 @@ services:
       - 8080:8080
     depends_on:
       - mysqldb
+    environment:
+      SPRING_DATASOURCE_URL: "jdbc:mysql://mysqldb:3306/TodolistDB"
+      SPRING_DATASOURCE_USERNAME: sengwah123
+      SPRING_DATASOURCE_PASSWORD: sengwah123
   mysqldb:
     image: mysql
     restart: always
