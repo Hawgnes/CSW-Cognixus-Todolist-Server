@@ -1,4 +1,6 @@
-create table if not exists Todo (
+drop table if exists todo;
+
+create table if not exists todo (
 	todo_Id bigint not null auto_increment,
 	todo_Title varchar(255) not null,
 	todo_Desc varchar(255),
