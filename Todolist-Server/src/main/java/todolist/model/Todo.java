@@ -10,12 +10,14 @@ import org.springframework.data.domain.Persistable;
 import org.springframework.data.relational.core.mapping.Table;
 
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Null;
 import lombok.Data;
 
 @Data
 @Table
 public class Todo implements Persistable<Long>{
 	@Id
+	@Null(message="Todo ID is not allowed to be modified")
 	private Long todoId;
 
 	@NotBlank(message="Todo title must not be blank")
@@ -27,6 +29,7 @@ public class Todo implements Persistable<Long>{
 	
 	private TODO_STATUS todoStatus = TODO_STATUS.NEW;
 	
+	@Null(message="Owner ID is not allowed to be modified")
 	// passed in with Principal
 	private String ownerId;
 	private Date createdAt = new Date();

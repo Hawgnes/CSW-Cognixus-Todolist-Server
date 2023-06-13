@@ -68,7 +68,7 @@ public class TodolistController {
 		catch (IllegalArgumentException e) {
 			return ResponseEntityBuilder.responseBuilder("You do not have a Todo with this ID", HttpStatus.NOT_FOUND);
 		}
-		return ResponseEntityBuilder.responseBuilder("Successfully deleted Todo " + todoId, HttpStatus.OK);
+		return ResponseEntityBuilder.responseBuilder("Successfully deleted Todo " + todoId, HttpStatus.NO_CONTENT);
 	}
 	
 	@GetMapping("/get/{todoId}")
@@ -104,18 +104,22 @@ public class TodolistController {
 			Principal principal) {
 		Todo todo = todoRepo.findTodoByOwnerIdAndTodoId(principal.getName(), todoId);
 		
-		
-		if (patch.getTodoTitle() != null) {
-			todo.setTodoTitle(patch.getTodoTitle());
+		if (todo != null) {
+			if (patch.getTodoTitle() != null) {
+				todo.setTodoTitle(patch.getTodoTitle());
+			}
+			if (patch.getTodoDesc() != null) {
+				todo.setTodoDesc(patch.getTodoDesc());
+			}
+			if (patch.getTodoStatus() != null) {
+				todo.setTodoStatus(patch.getTodoStatus());
+			}
+			return new ResponseEntity<>(todoRepo.save(todo), HttpStatus.OK);
 		}
-		if (patch.getTodoDesc() != null) {
-			todo.setTodoDesc(patch.getTodoDesc());
-		}
-		if (patch.getTodoStatus() != null) {
-			todo.setTodoStatus(patch.getTodoStatus());
+		else {
+			return ResponseEntityBuilder.responseBuilder("You do not have a Todo with this ID", HttpStatus.NOT_FOUND);
 		}
 
-		return new ResponseEntity<>(todoRepo.save(todo), HttpStatus.OK);
 	}
 	
 
