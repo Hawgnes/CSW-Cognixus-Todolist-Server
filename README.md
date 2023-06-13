@@ -92,7 +92,7 @@ User is authenticated and identified when they have a valid bearer token, so the
 
 | Endpoint Path | HTTP Method | Description |
 |-------------- | ----------- | ----------- |
-| /api/v1/get | GET | Retrieves all of user's Todo.<br> Can filter result with status like `/api/v1/get?status=IN_PROGRESS`|
+| /api/v1/get | GET | Retrieves all of user's Todo.<br> Can filter result with status like `/api/v1/get?status=IN_PROGRESS`<br> Acceptable values for Todo status are: `NEW`, `IN_PROGRESS`, `COMPLETED`|
 | /api/v1/get/{todoId} | GET | Retrieve a specific Todo by the ID. |
 
 
