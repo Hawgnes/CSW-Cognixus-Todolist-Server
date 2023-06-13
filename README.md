@@ -7,6 +7,7 @@ This is a TODO-list API server where users can:
 4. List all TODO items
 5. Mark a TODO item as completed
 
+<br>
 
 ## 0. Instruction for running the app
 ### 0.1 Running with executable JAR file
@@ -23,6 +24,7 @@ There is a docker-compose.yml file included in the project, you may start the ap
 Docker will attempt to download the images defined in the docker-compose.yml then run them.
 At the moment the datasource and database credentials are hardcoded - you may change the configurations directly in the docker-compose.yml file if you wish. 
 
+<br>
 
 ## 1. Instruction for testing the app
 All API endpoints require the user be authenticated, and currently the application only allow signed in Gmail accounts to call the API endpoints. 
@@ -64,6 +66,7 @@ We specify Content-Type and Authorization header, and -d to specify the request 
 >
 >curl -X POST -H "Content-Type: application/json" -H "Authorization: Bearer %bearerToken%" -d "{\"todoTitle\": \"Sample Todo\", \"todoDesc\": \"Sample desc\"}" http://localhost:8080/api/v1/add
 
+<br>
 
 ## 2. Instruction for building the app
 In the project root directory (/Todolist-Server), run the following commands to clean and build with maven
@@ -74,8 +77,8 @@ In the project root directory (/Todolist-Server), run the following commands to 
 
 It will generate the application .jar file in /target directory.
 
-### 2.1 Building Docker image
-Project also includes a Dockerfile which can be used to build a Docker image based on the application's .jar file. 
+### 2.1 Building Docker image with DockerFile
+The Dockerfile is used to build the application's Docker image based on the application's .jar file. 
 The following command can be ran at the root directory of the project. 
 
 >docker build -t tag-here .
@@ -84,15 +87,15 @@ A Docker image should be created, which can be queried with:
 
 >docker images
 
-Bear in mind 
-
+<br> 
 
 ## 3. Interface documentation
-User is authenticated and identified when they have a valid bearer token, so the responses are specific to themselves only, e.g. user can only query their own Todo but not another user's Todo. 
+User is authenticated and identified when they have a valid bearer token, so the responses are specific to themselves only, i.e. user can only query their own Todo but not another user's Todo. 
 
 | Endpoint Path | HTTP Method | Description |
 |-------------- | ----------- | ----------- |
 | /api/v1/get | GET | Retrieves all of user's Todo.<br> Can filter result with status like `/api/v1/get?status=IN_PROGRESS`<br> Acceptable values for Todo status are: `NEW`, `IN_PROGRESS`, `COMPLETED`|
-| /api/v1/get/{todoId} | GET | Retrieve a specific Todo by the ID. |
-
-
+| /api/v1/get/{todoId} | GET | Retrieve a specific Todo by ID. |
+| /api/v1/add | POST | Create a new Todo item<br> **Request Body**<br> - todoTitle: Title of the Todo. **(Required)** <br> - todoDesc: Description of the Todo. **(Optional)** |
+| /api/v1/delete/{todoId} | DELETE | Delete a specific Todo by ID. |
+| /api/v1/update/{todoId} | PATCH | Update a specific Todo by ID according to request body.<br> **Request Body**<br> - todoTitle: Title of the Todo. **(Optional)** <br> - todoDesc: Description of the Todo. **(Optional)** <br> - todoStatus: Status of the Todo. Acceptable values for Todo status are: `NEW`, `IN_PROGRESS`, `COMPLETED` **(Optional)** |
