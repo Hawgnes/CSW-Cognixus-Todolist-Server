@@ -7,6 +7,7 @@ This is a TODO-list API server where users can:
 4. List all TODO items
 5. Mark a TODO item as completed
 
+
 ## 0. Instruction for running the app
 ### 0.1 Running with executable JAR file
 Here is an example for running the application with the executable JAR file through the command line; you may replace the credentials and URL according to your local environment's requirements. 
@@ -21,6 +22,7 @@ There is a docker-compose.yml file included in the project, you may start the ap
 
 Docker will attempt to download the images defined in the docker-compose.yml then run them.
 At the moment the datasource and database credentials are hardcoded - you may change the configurations directly in the docker-compose.yml file if you wish. 
+
 
 ## 1. Instruction for testing the app
 All API endpoints require the user be authenticated, and currently the application only allow signed in Gmail accounts to call the API endpoints. 
@@ -50,6 +52,19 @@ If you for some reason do not wish to use Postman, included in the project is a 
 ![image](https://github.com/Hawgnes/CSW-Cognixus-Todolist-Server/assets/30411458/a18c30c8-9fc8-49b2-ab0f-3da46a96e1d3)
 2. Return to the script window, paste (right click) the value then hit Enter, it will send a curl to obtain the token. Copy the value in **id_token** and keep it, you will need it as part of the Authorization header when sending API request to the endpoints.  If for some reason the curl failed, you may want to try again from step 1 - the code value from step 1 is only valid for a few minutes and can only be used once. 
 
+### 1.1 Send request with Postman
+Following is an example POST request to add a Todo item. In the Authorization tab I have selected to use Bearer Token, passing in the variable of the bearer token ( you can also use the raw value if you wish ). 
+![image](https://github.com/Hawgnes/CSW-Cognixus-Todolist-Server/assets/30411458/bddad2cf-80e2-455c-ae1c-02f4af96db17)
+
+### 1.2 Send request with cURL
+Following is an example cURL POST request to add a Todo item. 
+We specify Content-Type and Authorization header, and -d to specify the request body, sending the API request to http://localhost:8080/api/v1/add
+
+>set bearerToken=BEARER_TOKEN_VALUE_HERE
+>
+>curl -X POST -H "Content-Type: application/json" -H "Authorization: Bearer %bearerToken%" -d "{\"todoTitle\": \"Sample Todo\", \"todoDesc\": \"Sample desc\"}" http://localhost:8080/api/v1/add
+
+
 ## 2. Instruction for building the app
 In the project root directory (/Todolist-Server), run the following commands to clean and build with maven
 
@@ -69,5 +84,15 @@ A Docker image should be created, which can be queried with:
 
 >docker images
 
+Bear in mind 
+
+
 ## 3. Interface documentation
+User is authenticated and identified when they have a valid bearer token, so the responses are specific to themselves only, e.g. user can only query their own Todo but not another user's Todo. 
+
+| Endpoint Path | HTTP Method | Description |
+|-------------- | ----------- | ----------- |
+| /api/v1/get | GET | Retrieves all of user's Todo.<br> Can filter result with status like `/api/v1/get?status=IN_PROGRESS`|
+| /api/v1/get/{todoId} | GET | Retrieve a specific Todo by the ID. |
+
 
