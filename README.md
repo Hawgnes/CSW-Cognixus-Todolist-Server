@@ -1,4 +1,4 @@
-# CSW-Cognixus-Todolist-Server
+# Todolist-Server
 ## Introduction
 This is a TODO-list API server where users can:
 1. Sign in using Gmail
